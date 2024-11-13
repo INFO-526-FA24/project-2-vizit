@@ -1,1 +1,5 @@
 hello!
+
+Question Suggestions : 
+Q) What are the significant factors(among all the columns) that contribute to patient's likelihood of readmission?
+Q) What medical speciality has the best and worst outcomes interms of readmission rates ?
