@@ -101,7 +101,7 @@ Q3) How do prior healthcare utilization and patient characteristics influence re
 
 Variables to Include: -n_outpatient\`, \`n_inpatient\`, \`n_emergency\` -\`age\` -\`medical_specialty\` -\`time_in_hospital\`, \`n_medications\`, \`n_procedures\` -\`diag_1\`, \`diag_2\`, \`diag_3\` -\`diabetes_med\`, \`change\` -\`readmitted\`
 
-Proposed Analysis : [1.]{.underline}Perform some predictive modelling like logistic regression/ random forestetcto identify key predictors of readmission.
+Proposed Analysis : [1.]{.underline}Perform some predictive modelling to identify key predictors of readmission.
 
 **Weekly-Plan**
 
