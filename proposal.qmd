@@ -81,57 +81,32 @@ We will handle data pre-processing in several key steps: first, understanding th
 
 Q1) What are the key demographic and clinical factors that influence hospital readmission rates?
 
-Objective: To identify the most significant demographic (age, medical specialty) and clinical factors (length of stay, number of procedures, etc.) that contribute to hospital readmissions.
+Objective: To identify the most significant demographic (age, medical specialty etc) and clinical factors (length of stay, number of procedures, etc.) that contribute to hospital readmissions.
 
-Variables to Include:
-- \`age\`
-- \`medical_specialty\`
-- \`time_in_hospital\`
-- \`n_lab_procedures\`
-- \`n_procedures\`
-- \`n_medications\`
-- \`readmitted\`
+Variables to Include: - \`age\` - \`medical_specialty\` - \`time_in_hospital\` - \`n_lab_procedures\` - \`n_procedures\` - \`n_medications\` - \`readmitted\`
 
-Proposed Analysis:
-1. Perform descriptive statistics and logistic regression analysis to identify predictors of readmission.
-2. Create a correlation heatmap to visualize relationships among variables.
-3. Use bar plots and box plots to explore differences in readmission rates across age groups and medical specialties.
+Proposed Analysis: 1. Perform descriptive statistics to identify predictors of readmission. 2. Create a correlation heatmap to visualize relationships among variables. 3. Use bar plots and box plots to explore differences in readmission rates across age groups and medical specialties.
 
----
+------------------------------------------------------------------------
 
-Q2) Some doctors believe diabetes might play a central role in readmission. Explore the effect of a diabetes diagnosis on readmission rates.
-Objective: To validate the hypothesis that a diabetes diagnosis significantly impacts readmission rates.
+Q2) Some doctors believe diabetes might play a central role in readmission. Explore the effect of a diabetes diagnosis on readmission rates. Objective: To validate the hypothesis that a diabetes diagnosis significantly impacts readmission rates.
 
-Variables to Include:
--\`diag_1\`, \`diag_2\`, \`diag_3\`
--\`readmitted\`
+Variables to Include: -\`diag_1\`, \`diag_2\`, \`diag_3\` -\`readmitted\`
 
-Proposed Analysis:
-[1.]{.underline} Conduct Chi-square tests for each diagnosis category to assess its impact on readmissions.
-[2.]{.underline} Visualize results with bar plots comparing the proportion of readmissions for diabetic vs. non-diabetic patients.
-[3.]{.underline} Highlight significant differences to guide healthcare interventions for diabetic patients.
+Proposed Analysis: [1.]{.underline} Conduct Chi-square tests for each diagnosis category to assess its impact on readmissions. [2.]{.underline} Visualize results with bar plots comparing the proportion of readmissions for diabetic vs. non-diabetic patients. [3.]{.underline} Highlight significant differences to guide healthcare interventions for diabetic patients.
 
----
+------------------------------------------------------------------------
 
-Q3) How do prior healthcare utilization and patient characteristics influence readmission, and which groups should be prioritized for follow-up care?
-Objective: To determine which factors (including previous healthcare visits, diagnoses, and treatments) predict hospital readmission, and identify high-risk groups that require focused follow-up.
+Q3) How do prior healthcare utilization and patient characteristics influence readmission, and which groups should be prioritized for follow-up care? Objective: To determine which factors (including previous healthcare visits, diagnoses, and treatments) predict hospital readmission, and identify high-risk groups that require focused follow-up.
 
-Variables to Include:
--n_outpatient\`, \`n_inpatient\`, \`n_emergency\`
--\`age\`
--\`medical_specialty\`
--\`time_in_hospital\`, \`n_medications\`, \`n_procedures\`
--\`diag_1\`, \`diag_2\`, \`diag_3\`
--\`diabetes_med\`, \`change\`
--\`readmitted\`
+Variables to Include: -n_outpatient\`, \`n_inpatient\`, \`n_emergency\` -\`age\` -\`medical_specialty\` -\`time_in_hospital\`, \`n_medications\`, \`n_procedures\` -\`diag_1\`, \`diag_2\`, \`diag_3\` -\`diabetes_med\`, \`change\` -\`readmitted\`
 
-Proposed Analysis :
-[1.]{.underline}Perform some predictive modelling like logistic regression/ random forestetcto identify key predictors of readmission.
+Proposed Analysis : [1.]{.underline}Perform some predictive modelling like logistic regression/ random forestetcto identify key predictors of readmission.
 
 **Weekly-Plan**
 
 | **Task Name**                                    | **Status**  | **Assignee**                  | **Due Date**   | **Priority** | **Summary**                                                                                           |
-|:-----------|:------------|:-----------|------------|:-----------|:------------|
+|:-----------|:-----------|:-----------|------------|:-----------|:-----------|
 | Data Cleaning and preparation                    | In Progress | Anushree,Junaid,Krishna,Sumel | week of Nov 11 | High         | Clean data (remove missing values, format dates, standardize variables).                              |
 | Exploratory Data analysis (EDA)                  | Pending     | Anushree,Junaid,Krishna,Sumel | week of Nov 11 | High         | Explore basic statistics and distributions of variables.                                              |
 | Analysis and visualization of Q1 & partial Q2.   | Pending     | Anushree,Junaid,Krishna,Sumel | week of Nov 18 | HIgh         | Explore patterns and relationship between variables to arrive at best possible analysis of Q1 and Q2. |
