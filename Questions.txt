@@ -1,5 +1,7 @@
 hello!
 
-Question Suggestions : 
-Q) What are the significant factors(among all the columns) that contribute to patient's likelihood of readmission?
-Q) What medical speciality has the best and worst outcomes interms of readmission rates ?
+Questions : 
+Q1) What are the key demographic and clinical factors that influence hospital readmission rates?
+Q2) Some doctors believe diabetes might play a central role in readmission. Explore the effect of a diabetes diagnosis on readmission rates.
+Q3) How do prior healthcare utilization and patient characteristics influence readmission, and which groups should be prioritized for follow- 
+    up care?
