@@ -5,7 +5,7 @@ The dataset represents ten years of clinical care at 130 US hospitals and integr
 
 Variable Description:
 
-# "age" - Age bracket of the patient (e.g., [50-60), [60-70), etc.)
+### "age" - Age bracket of the patient (e.g., [50-60), [60-70), etc.)
 # "time_in_hospital" - Number of days the patient stayed in the hospital (ranges from 1 to 14 days)
 # "n_procedures" - Number of procedures performed during the hospital stay
 # "n_lab_procedures" - Number of laboratory procedures performed during the hospital stay
