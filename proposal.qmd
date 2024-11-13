@@ -31,7 +31,7 @@ library(readr)
 ```{r}
 #| label: load-dataset
 #| message: false
-df <- read_csv("hospital_readmissions.csv")
+df <- read_csv("data/hospital_readmissions.csv")
 ```
 
 **Description of the Dataset**
