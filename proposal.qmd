@@ -85,7 +85,7 @@ Objective: To identify the most significant demographic (age, medical specialty 
 
 Variables to Include: - \`age\` - \`medical_specialty\` - \`time_in_hospital\` - \`n_lab_procedures\` - \`n_procedures\` - \`n_medications\` - \`readmitted\`
 
-Proposed Analysis: 1. Perform descriptive statistics to identify predictors of readmission. 2. Create a correlation heatmap to visualize relationships among variables. 3. Use bar plots and box plots to explore differences in readmission rates across age groups and medical specialties.
+Proposed Analysis: 1. Perform descriptive statistics to identify predictors of readmission. 2. Create a correlation heatmap to visualize relationships among variables. 3. Use bar plots and box plots to explore differences in readmission rates across age groups and medical specialties.4.Conduct statistical tests like chi-squared to establish the significance of differences in readmission rates between diabetic and non-diabetic patients.
 
 ------------------------------------------------------------------------
 
