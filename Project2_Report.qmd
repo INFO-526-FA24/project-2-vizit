@@ -61,8 +61,9 @@ The dataset represents ten years of clinical care at 130 US hospitals and integr
 -   "readmitted" - if the patient was readmitted at the hospital ('yes' or 'no')
 
 ```{r}
+getwd()
 
-df <- read.csv("hospital_readmissions.csv")
+df <- read.csv("data\\hospital_readmissions.csv")
 head(df)
 dim(df)
 
@@ -398,7 +399,9 @@ It is shown that the main diagnoses for all age groups are circulatory and other
 
 We have a predominantly elderly population who are mostly admitted for circulatory and unspecified (other) causes. The majority of the classification regarding care was not recorded (missing), and the vast majority did not have glucose or hemoglobin A1C tests performed. The average number of laboratory procedures and medications per patient is high relative to the length of hospital stay. All of this may indicate that our population has high comorbidity and polypharmacy, which may justify the high readmission rates.
 
-### **Q2) Some doctors believe diabetes might play a central role in readmission. Explore the effect of a diabetes diagnosis on readmission rates. Objective: To validate the hypothesis that a diabetes diagnosis significantly impacts readmission rates.**
+### **Q2) Some doctors believe diabetes might play a central role in readmission. Explore the effect of a diabetes diagnosis on readmission rates.** 
+
+Objective: To validate the hypothesis that a diabetes diagnosis significantly impacts readmission rates.
 
 This question requires us to check if the doctors assumption that diabetes plays a central role in readmission is true. We will be running a hypothesis test to see if there is a relationship between a diabetes diagnosis and readmission rates.
 
@@ -1098,9 +1101,8 @@ For the **protective factors**, we found the missing tertiary diagnosis (with th
 
     -   (60-100): circulatory, other, respiratory, digestive, trauma (wounds).
 
-```{=html}
 <!-- -->
-```
+
 -   Statistically significant relationship between primary diabetes diagnosis and readmissions with 53.6% of people with primary diabetes diagnosis being readmitted.
 
 -   Statistically significant relationship between secondary diabetes diagnosis and readmissions with 44.2% of people with secondary diabetes diagnosis being readmitted.
