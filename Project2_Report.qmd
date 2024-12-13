@@ -61,9 +61,8 @@ The dataset represents ten years of clinical care at 130 US hospitals and integr
 -   "readmitted" - if the patient was readmitted at the hospital ('yes' or 'no')
 
 ```{r}
-getwd()
 
-df <- read.csv("data\\hospital_readmissions.csv")
+df <- read.csv("hospital_readmissions.csv")
 head(df)
 dim(df)
 
@@ -109,18 +108,22 @@ library(ggpubr)
 library(grid)
 library(gridExtra)
 
-# Reshape the dataframe to long format (excluding the readmitted column)
+# Reshape the dataframe to long format and calculate percentages
 df_long <- df %>%
-  select(where(is.character), -readmitted) %>%  # Exclude the readmitted column
-  pivot_longer(cols = everything(), names_to = "variable", values_to = "value")
+  select(where(is.character)) %>%  # Include all character-type columns, including readmitted
+  pivot_longer(cols = everything(), names_to = "variable", values_to = "value") %>%
+  group_by(variable, value) %>%
+  summarise(count = n(), .groups = "drop") %>%
+  group_by(variable) %>%
+  mutate(percentage = (count / sum(count)) * 100)  # Calculate percentages
 
 # Generate individual plots for each variable
 plots <- df_long %>%
   group_by(variable) %>%
   group_split() %>%
   lapply(function(sub_df) {
-    ggplot(sub_df, aes(x = value, fill = value)) +
-      geom_bar() +
+    ggplot(sub_df, aes(x = value, y = percentage, fill = value)) +
+      geom_bar(stat = "identity") +  # Use percentages instead of raw counts
       theme_minimal() +
       theme(
         panel.grid = element_blank(),                # Remove gridlines
@@ -136,7 +139,7 @@ plots <- df_long %>%
       labs(
         title = unique(sub_df$variable),  # Add centered plot-specific title
         x = NULL,                         # Remove x-axis label
-        y = NULL                          # Remove y-axis label
+        y = "%"                           # Change y-axis label to %
       ) +
       scale_fill_manual(values = scales::hue_pal()(length(unique(sub_df$value))))
   })
@@ -149,7 +152,7 @@ combined_plot <- ggarrange(
 
 # Add a common title with spacing using gridExtra
 final_plot <- grid.arrange(
-  textGrob("Countplot of Categorical Variables", 
+  textGrob("Barplot of Categorical Variables (in %)", 
            gp = gpar(fontface = "bold", fontsize = 30),  # Common title format
            hjust = 0.5),                                # Center the title
   combined_plot,
@@ -171,6 +174,8 @@ final_plot
     2.  The majority of patients were between 60 and 90 years old.
 
     3.  Patient management was primarily categorized as missing, with internal medicine and other categories following in frequency.
+
+    4.  Around 47% of the patients are readmitted.
 
 Variables related to diabetes:
 
@@ -284,39 +289,7 @@ ggplot(df_long_numeric, aes(x = value, y = variable, fill = variable)) +
 
 4.  The average number of medications used was 16.25.
 
-**Fig 3. Readmitted Patients Proportion:**
-
-```{r redamit proportion}
-library(ggplot2)
-library(dplyr)
-
-# Count occurrences of each value in the readmitted column
-readmitted_counts <- df %>%
-  count(readmitted) %>%
-  mutate(percentage = n / sum(n) * 100)  # Calculate percentage for labels
-
-# Create the pie chart
-ggplot(readmitted_counts, aes(x = "", y = n, fill = readmitted)) +
-  geom_bar(stat = "identity", width = 1) +
-  coord_polar(theta = "y") +  # Transform to pie chart
-  theme_void() +  # Remove unnecessary elements
-  labs(
-    title = "Pie Chart of Readmitted",
-    fill = "Readmitted"
-  ) +
-  geom_text(
-    aes(label = paste0(round(percentage, 1), "%")),
-    position = position_stack(vjust = 0.5)
-  ) +
-  theme(
-    plot.title = element_text(size = 14, face = "bold", hjust = 0.5)
-  )
-
-```
-
-Around 47% of the patients are readmitted.
-
-**Fig 4. Primary Diagnosis by age group**
+**Fig 3. Primary Diagnosis by age group**
 
 ```{r fig.width=25, fig.height=12}
 library(ggplot2)
@@ -385,7 +358,7 @@ final_plot
 
 ```
 
-**Important findings from Fig 4:**
+**Important findings from Fig 3:**
 
 It is shown that the main diagnoses for all age groups are circulatory and others. We can classify the prevalence (in order) of diagnoses into three groups as follows:
 
@@ -399,9 +372,7 @@ It is shown that the main diagnoses for all age groups are circulatory and other
 
 We have a predominantly elderly population who are mostly admitted for circulatory and unspecified (other) causes. The majority of the classification regarding care was not recorded (missing), and the vast majority did not have glucose or hemoglobin A1C tests performed. The average number of laboratory procedures and medications per patient is high relative to the length of hospital stay. All of this may indicate that our population has high comorbidity and polypharmacy, which may justify the high readmission rates.
 
-### **Q2) Some doctors believe diabetes might play a central role in readmission. Explore the effect of a diabetes diagnosis on readmission rates.** 
-
-Objective: To validate the hypothesis that a diabetes diagnosis significantly impacts readmission rates.
+### **Q2) Some doctors believe diabetes might play a central role in readmission. Explore the effect of a diabetes diagnosis on readmission rates. Objective: To validate the hypothesis that a diabetes diagnosis significantly impacts readmission rates.**
 
 This question requires us to check if the doctors assumption that diabetes plays a central role in readmission is true. We will be running a hypothesis test to see if there is a relationship between a diabetes diagnosis and readmission rates.
 
@@ -503,7 +474,7 @@ print(chi_square_result)
 
 Here the p-value \<0.05 and so we have to reject the null hypothesis and take on the alternative hypothesis. In this case, we can come to a conclusion that there is indeed a statistically significant relationship between diabetes diagnosis 1 and readmissions.
 
-**Fig 5. Readmission Status of Patients with Primary Diabetes Diagnosis**
+**Fig 4. Readmission Status of Patients with Primary Diabetes Diagnosis**
 
 ```{r}
 library(ggplot2)
@@ -536,7 +507,7 @@ ggplot(diabetes_data, aes(x = "", y = percentage, fill = readmitted)) +
 
 Around 53.6 % of patients with primary diabetes diagnosis are readmitted.
 
-**Fig 6. Readmitted Status by Age Group for Primary Diabetes Diagnosis**
+**Fig 5. Readmitted Status by Age Group for Primary Diabetes Diagnosis**
 
 ```{r}
 library(ggplot2)
@@ -662,7 +633,7 @@ print(chi_square_result_diag2)
 
 Here the p-value \<0.05 and so we have to reject the null hypothesis and take on the alternative hypothesis. In this case, we can come to a conclusion that there is indeed a statistically significant relationship between diabetes diagnosis 2 and readmissions.
 
-**Fig 7. Readmission Status of Patients with Secondary Diabetes Diagnosis**
+**Fig 6. Readmission Status of Patients with Secondary Diabetes Diagnosis**
 
 ```{r}
 library(ggplot2)
@@ -695,7 +666,7 @@ ggplot(diabetes_data, aes(x = "", y = percentage, fill = readmitted)) +
 
 Around 44.2 % of patients with secondary diabetes diagnosis are readmitted which is less than patients with primary diabetes diagnosis.
 
-**Fig 8. Readmitted Status by Age Group for Secondary Diabetes Diagnosis**
+**Fig 7. Readmitted Status by Age Group for Secondary Diabetes Diagnosis**
 
 ```{r}
 library(ggplot2)
@@ -921,7 +892,7 @@ print(df_sig)
 
 ```
 
-**Fig 9. Forest Plot of Odd Ratio \>1**
+**Fig 8. Forest Plot of Odd Ratio \>1**
 
 Risk factors for readmission were identified through univariate analysis using logistic regression the higher the factor the greater the likelihood of being readmitted.
 
@@ -952,9 +923,9 @@ ggplot(filtered_results_gt1, aes(x = OddsRatio, y = reorder(Term, -OddsRatio))) 
 
 ```
 
-From Fig 9, we find that the use of healthcare services in the previous year, especially previous hospitalizations and number of visits to the emergency room , when a diabetes medication was prescribed and when the primary diagnosis was diabetes are among the most important risk factors for patients getting readmitted.
+From Fig 8, we find that the use of healthcare services in the previous year, especially previous hospitalizations and number of visits to the emergency room , when a diabetes medication was prescribed and when the primary diagnosis was diabetes are among the most important risk factors for patients getting readmitted.
 
-**Fig 10. Forest Plot of Odd Ratio \<1**
+**Fig 9. Forest Plot of Odd Ratio \<1**
 
 Protective factors for readmission were identified through univariate analysis using logistic regression the smaller the factor the greater the likelihood of not being readmitted.
 
@@ -981,7 +952,7 @@ ggplot(filtered_results_lt1, aes(x = OddsRatio, y = reorder(Term, OddsRatio))) +
 
 ```
 
-Regarding protective factors (Fig 10.), the most notable was a missing tertiary diagnosis, which can be interpreted in two ways:
+Regarding protective factors (Fig 9), the most notable was a missing tertiary diagnosis, which can be interpreted in two ways:
 
 1.  It may highlight a need to improve the classification of patients if the diagnosis was not accurately recorded.
 
@@ -1042,7 +1013,7 @@ significant_results <- results %>% filter(PValue < 0.05)
 
 ```
 
-**Forest plot for Risk and Protective factors for readmission using multivariate logistic regression**
+**Fig 10. Forest plot for Risk and Protective factors for readmission using multivariate logistic regression**
 
 ```{r}
 library(ggplot2)
@@ -1101,8 +1072,6 @@ For the **protective factors**, we found the missing tertiary diagnosis (with th
 
     -   (60-100): circulatory, other, respiratory, digestive, trauma (wounds).
 
-<!-- -->
-
 -   Statistically significant relationship between primary diabetes diagnosis and readmissions with 53.6% of people with primary diabetes diagnosis being readmitted.
 
 -   Statistically significant relationship between secondary diabetes diagnosis and readmissions with 44.2% of people with secondary diabetes diagnosis being readmitted.
@@ -1113,7 +1082,7 @@ For the **protective factors**, we found the missing tertiary diagnosis (with th
 
     -   Patients with a primary diagnosis of diabetes and prescribed medication for diabetes at hospital discharge.
 
-    -   Ages 70-90 group.
+    -   Ages 70-90 group; the ages 70-80 have a higher proportion of readmission given they have diabetes.
 
 -   Patients with the following characteristics are less likely to be readmitted:
 
